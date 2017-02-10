@@ -1,0 +1,9 @@
+#!/bin/bash
+
+#Connect to axe and map ports:
+#8100 = Logger
+#8200 = IceBoard
+#5901 = VNC screen
+#8890 = Jupyter notebook
+
+ssh -L 8890:127.0.0.1:8888 -L 8100:127.0.0.1:8100 -L 5901:127.0.0.1:5901 -L 8200:10.10.10.200:80 -t fcarter@axe.msd.anl.gov

@@ -1,0 +1,5 @@
+#!/bin/bash
+
+MY_IP="`curl ifconfig.me`"
+DEST = $1
+echo "<html><body>$MY_IP</body></html>" > $DEST

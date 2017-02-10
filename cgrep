@@ -1,0 +1,4 @@
+#!/bin/bash
+
+#Run ls and count the number of matches
+ls -1f | grep "$1" | wc -l
