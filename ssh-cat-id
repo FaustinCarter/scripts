@@ -1,0 +1,8 @@
+#!/bin/bash
+
+#Since OSX is missing ssh-copy-id, use this to copy over ids
+
+MY_KEY = $1
+REMOTE_SERVER = $2
+
+cat $MY_KEY | ssh $REMOTE_SERVER "cat - >> ~/.ssh/authorized_keys"
