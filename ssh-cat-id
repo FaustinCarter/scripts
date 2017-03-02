@@ -2,7 +2,28 @@
 
 #Since OSX is missing ssh-copy-id, use this to copy over ids
 
-MY_KEY = $1
-REMOTE_SERVER = $2
+MY_KEY=$1
+REMOTE_SERVER=$2
 
-cat $MY_KEY | ssh $REMOTE_SERVER "cat - >> ~/.ssh/authorized_keys"
+#Check to make sure it's the public key getting sent
+if [ "${MY_KEY: -4}" != ".pub" ]; then
+  MY_KEY="$MY_KEY.pub"
+fi
+
+#Check again to make sure key exists
+if [ ! -f $MY_KEY ]; then
+  echo "Key not found!"
+  echo "Usage: $0 key user@server"
+  exit
+fi
+
+#Make sure a server was passed
+if [ -z "$REMOTE_SERVER" ]; then
+  echo "Usage: $0 key user@server"
+  exit
+fi
+
+#Copy that sucker up, and put the permissions on it correctly
+echo "Attempting to copy key to $REMOTE_SERVER... "
+ssh -q $REMOTE_SERVER "umask 0077; mkdir -p ~/.ssh ; echo "`cat $MY_KEY`" >> ~/.ssh/authorized_keys"
+echo "Finished"
